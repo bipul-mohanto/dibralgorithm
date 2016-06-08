@@ -25,7 +25,7 @@ Rt_v = [1.0 0.0 0.0 1.5924; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0]; % rotation and tr
 %% Task 1: produce a synthesized 2D virtual image located at the positioned defined by the two cameras' projection matrices
 %% 3D image wrapping
 %rgb to ycbcr
-V_o_ycbcr = rgb2ycbcr(V_o);
+V_o_ycbcr = rgb2ycbcr(V_o); %color space transformation
 D_o_ycbcr = rgb2ycbcr(D_o);
 
 %% Task 2: Arbitary number of N = 5 virtual view
