@@ -87,5 +87,31 @@ im2 = rgb2gray(D_o);
 
 % m = K_o * eye(3,4) * 
 % m1 = K_o * eye(3)*im1;
+fx_d = fy_d = 1; % assume f = 1, currently unknown
+x_k = (- im2./fx_d).*(x1-x);
+y_k = (- im2./fy_d).*(y1-y);
+XwYwZw = cat(3, x_k,y_k,im2);
+
+%% 2D to 3D transform
+XwYwZw = reshape(XwYwZw, H*W, 3);
+XwYwZw1 = [XwYwZw ones(H*W,1)];
+
+%% rotate and translate the 3D points
+XcYcZc1 = [Rt_o Rt_o(:,4); 0 0 0 1]*XwYwZw1';
+
+
+%% rotate and translate the 3D points
+XcYcZc1 = [Rt_v Rt_v(:,4); 0 0 0 1]*XwYwZw1';
+
+%% part 3 project into image coordinates
+%XcYcZc1 = XcYcZc1';
+Xc = reshape(XcYcZc1(1,:),H,W); % take Xc and Yc from camera coordinates
+Yc = reshape(XcYcZc1(2,:),H,W);
+Zc = XcYcZc1(3,:);
+Ix = ((x1 .*Xc) ./ im2);
+Iy = ((y1 .*Yc) ./ im2);
+Dx = Ix+im1;
+Dy = Iy+im1;
+
 
 % m = [x1,y1] + ((eye(3,3)*(Rt_v(:,4)))./2760.510889)+ 
